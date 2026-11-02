@@ -1,0 +1,33 @@
+.stats ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+}
+
+.stats li {
+  text-align: center;
+}
+
+.stats .stats-number {
+  font-size: var(--heading-font-size-xxl);
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.stats .stats-caption {
+  font-weight: 700;
+  margin: 8px 0;
+}
+
+.stats .stats-description {
+  font-size: var(--body-font-size-s);
+}
+
+@media (width >= 900px) {
+  .stats ul {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
