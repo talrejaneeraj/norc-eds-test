@@ -8,12 +8,22 @@
 }
 
 .cards > ul > li {
+  display: flex;
+  flex-direction: column;
   border: 1px solid #dadada;
   background-color: var(--background-color);
 }
 
 .cards .cards-card-body {
   margin: 16px;
+}
+
+.cards .cards-card-body > :first-child {
+  margin-top: 0;
+}
+
+.cards .cards-card-body > :last-child {
+  margin-bottom: 0;
 }
 
 .cards .cards-card-image {
@@ -24,4 +34,81 @@
   width: 100%;
   aspect-ratio: 4 / 3;
   object-fit: cover;
+}
+
+/* eyebrow: category, division or sponsor above the title */
+.cards .cards-card-eyebrow {
+  margin: 0 0 8px;
+  color: var(--dark-color);
+  font-size: var(--body-font-size-xs);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.cards .cards-card-body h3 {
+  margin: 0;
+  font-size: var(--heading-font-size-s);
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+
+.cards .cards-card-body h3 a {
+  color: var(--text-color);
+}
+
+/* text after the title: source, outlet or summary */
+.cards .cards-card-body h3 ~ p {
+  margin: 8px 0 0;
+  color: var(--dark-color);
+  font-size: var(--body-font-size-s);
+}
+
+/* optional image missing: keep the card from looking empty */
+.cards > ul > li.cards-card-no-image {
+  border-top: 4px solid var(--link-color);
+  background-color: var(--light-color);
+}
+
+/* whole card clickable when it has exactly one link */
+.cards > ul > li.cards-card-linked {
+  position: relative;
+  transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+}
+
+.cards .cards-card-link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+.cards .cards-card-link:focus-visible {
+  outline: none;
+}
+
+.cards > ul > li.cards-card-linked:hover .cards-card-link,
+.cards > ul > li.cards-card-linked:focus-within .cards-card-link {
+  color: var(--link-hover-color);
+  text-decoration: underline;
+}
+
+.cards > ul > li.cards-card-linked:has(.cards-card-link:focus-visible) {
+  outline: 3px solid var(--link-color);
+  outline-offset: 2px;
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .cards > ul > li.cards-card-linked:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgb(0 0 0 / 12%);
+  }
+}
+
+/* logos variant: logos are shown whole, never cropped */
+.cards.logos > ul > li img {
+  box-sizing: border-box;
+  aspect-ratio: 2 / 1;
+  padding: 16px 24px;
+  object-fit: contain;
+  background-color: var(--background-color);
 }
