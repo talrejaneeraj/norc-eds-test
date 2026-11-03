@@ -25,27 +25,38 @@ npm i
 npm run lint
 ```
 
+## Sites
+
+Each site lives in its own folder with its own header and footer fragments:
+
+| Site | Folder | Local URL |
+|---|---|---|
+| Amplify AAPI | `amplifyaapi/` | http://localhost:3000/amplifyaapi/ |
+| NORC | `norc/` | http://localhost:3000/norc/ |
+| AmeriSpeak | `amerispeak/` | http://localhost:3000/amerispeak/ |
+
+Each folder contains the page (`index.html` or `index.plain.html`), `nav.plain.html`, `footer.plain.html` and an `images/` folder.
+
 ## Local development
 
 1. Install the dependencies: `npm i`
-1. Start the local EDS proxy against the project preview origin:
+1. Start the local EDS dev server for all site folders:
    ```sh
    npm run start
    ```
    This runs:
    ```sh
-   npx -y @adobe/aem-cli up --url https://main--norc-eds-test--talrejaneeraj.aem.page --no-open --port 3000
+   npx -y @adobe/aem-cli up --url https://main--norc-eds-test--talrejaneeraj.aem.page --html-folder . --html-mount / --no-open --port 3000
    ```
+   `--html-folder . --html-mount /` serves the local site folders at `/<folder>/`.
 1. If you are pointing at a different upstream site or a custom domain, replace the URL in the command with your actual `--url` / `--pages-url` value.
-1. Open http://localhost:3000 to preview the site.
+1. Open one of the local URLs above.
 
 ## Header / footer shared fragments in EDS
 
-The `header` and `footer` blocks resolve to `/nav` and `/footer` by default. If those URLs return `404`, the upstream site does not have those shared-content pages published or configured for the current origin.
+The `header` and `footer` blocks load `/nav` and `/footer` unless the page sets `nav` / `footer` metadata. Each site points to its own fragments:
 
-Typical fix:
-- ensure `/nav` and `/footer` exist in the source project and are published;
-- confirm the local proxy is pointed at the right upstream origin with `--url` / `--pages-url`;
-- keep the common experience in a single shared fragment document, then reuse it across pages instead of duplicating markup.
+- Amplify AAPI: `<meta name="nav" content="/amplifyaapi/nav">` and `<meta name="footer" content="/amplifyaapi/footer">` in `amplifyaapi/index.html`
+- NORC and AmeriSpeak: `nav` and `footer` rows in the page `metadata` block (`/norc/nav`, `/norc/footer`, `/amerispeak/nav`, `/amerispeak/footer`)
 
-This project already contains `nav.html` and `footer.html` at the repo root, so the remaining issue is the upstream origin/configuration, not the block logic itself.
+Images inside nav/footer fragments use site-absolute paths (`/<folder>/images/...`) so they resolve the same on every page.
